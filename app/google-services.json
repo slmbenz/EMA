@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "572138278417",
+    "firebase_url": "https://realtimetracking-a10f2.firebaseio.com",
+    "project_id": "realtimetracking-a10f2",
+    "storage_bucket": "realtimetracking-a10f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572138278417:android:76791a515b889cc3",
+        "android_client_info": {
+          "package_name": "com.example.abdessalem.realtimetrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572138278417-h0eebduiq958es968aci7c06101026pa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.abdessalem.realtimetrack",
+            "certificate_hash": "dc10c73cbd85adeff408b6bc68a8cd471a358e77"
+          }
+        },
+        {
+          "client_id": "572138278417-gj9pun9v43bem5mpms5bdqnoris86558.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCROfeFLKMsEYb3nUVbIb5vQKOSPF48HIY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572138278417-gj9pun9v43bem5mpms5bdqnoris86558.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
