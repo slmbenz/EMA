@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,7 +51,26 @@ public class ListeOnline extends AppCompatActivity {
         currentUserRef = FirebaseDatabase.getInstance().getReference("lastOnline")
         .child(FirebaseAuth.getInstance().getCurrentUser().getUid());//Create new child in lastOnline with the key uid
         setupSystem();
+        //After setup System, we load all users from counterRef and display on recyclerView
+        //This is an online list
+        updateList();
     }
+
+    private void updateList() {
+        adapter = new FirebaseRecyclerAdapter<User, ListOnlineViewHolder>() {
+            @Override
+            protected void onBindViewHolder(@NonNull ListOnlineViewHolder holder, int position, @NonNull User model) {
+
+            }
+
+            @NonNull
+            @Override
+            public ListOnlineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return null;
+            }
+        };
+    }
+
 
     private void setupSystem() {
         onlineRef.addValueEventListener(new ValueEventListener() {
@@ -63,7 +83,6 @@ public class ListeOnline extends AppCompatActivity {
                     counterRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), "Online"));
                     adapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -78,7 +97,7 @@ public class ListeOnline extends AppCompatActivity {
                 for(DataSnapshot postSnapshot:dataSnapshot.getChildren())
                 {
                     User user = postSnapshot.getValue(User.class);
-                    Log.d("LOG",""+user.getEmail()+" is "+user.getStatus());
+                    Log.d("LOG", "" + user.getEmail() + " is " + user.getStatus());
                 }
             }
 
@@ -86,7 +105,7 @@ public class ListeOnline extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
     }
 
     @Override
