@@ -9,14 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class ListeOnline extends AppCompatActivity {
@@ -26,7 +29,7 @@ public class ListeOnline extends AppCompatActivity {
     FirebaseRecyclerAdapter<User,ListOnlineViewHolder> adapter;
 
     //View
-    RecyclerView ListeOnline;
+    RecyclerView listeOnline;
     RecyclerView.LayoutManager layoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,10 @@ public class ListeOnline extends AppCompatActivity {
         setContentView(R.layout.activity_liste_online);
 
         //init View
-        ListeOnline = (RecyclerView)findViewById(R.id.ListeOnline);
-        ListeOnline.setHasFixedSize(true);
+        listeOnline = (RecyclerView)findViewById(R.id.ListeOnline);
+        listeOnline.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        ListeOnline.setLayoutManager(layoutManager);
+        listeOnline.setLayoutManager(layoutManager);
 
         //Set toolbar and Logout / Join menu
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolBar);
@@ -57,10 +60,21 @@ public class ListeOnline extends AppCompatActivity {
     }
 
     private void updateList() {
-        adapter = new FirebaseRecyclerAdapter<User, ListOnlineViewHolder>() {
+
+        //i make a Query here
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // the options should be declared
+        FirebaseRecyclerOptions<User> options =
+                new FirebaseRecyclerOptions.Builder<User>()
+                        .setQuery(query, User.class)
+                        .build();
+        adapter = new FirebaseRecyclerAdapter<User, ListOnlineViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ListOnlineViewHolder holder, int position, @NonNull User model) {
-
+                holder.txtEmail.setText(model.getEmail());
             }
 
             @NonNull
@@ -69,8 +83,9 @@ public class ListeOnline extends AppCompatActivity {
                 return null;
             }
         };
+        adapter.notifyDataSetChanged();
+        listeOnline.setAdapter(adapter);
     }
-
 
     private void setupSystem() {
         onlineRef.addValueEventListener(new ValueEventListener() {
@@ -113,5 +128,20 @@ public class ListeOnline extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.action_join:
+                counterRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .setValue(new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(),"Online"));
+                break;
+            case R.id.action_logout:
+                currentUserRef.removeValue();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
