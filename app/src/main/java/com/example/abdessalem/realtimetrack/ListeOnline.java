@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -172,22 +173,26 @@ public class ListeOnline extends AppCompatActivity implements
 
     private void updateList() {
 
+/*
         //i make a Query here
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+*/
 
         // the options should be declared
-        FirebaseRecyclerOptions<User> options =
-                new FirebaseRecyclerOptions.Builder<User>()
-                        .setQuery(query, User.class)
+        FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
+                        .setQuery(counterRef, User.class)
                         .build();
         adapter = new FirebaseRecyclerAdapter<User, ListOnlineViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ListOnlineViewHolder holder, int position, @NonNull final User model) {
-                holder.txtEmail.setText(model.getEmail());
+                if(model.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()))
+                    holder.txtEmail.setText(model.getEmail()+" (me)");
 
-                // implement item click of recycler view
+                else
+                    holder.txtEmail.setText(model.getEmail());
+                            // implement item click of recycler view
                 holder.itemClickListener = new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
@@ -205,11 +210,13 @@ public class ListeOnline extends AppCompatActivity implements
             @NonNull
             @Override
             public ListOnlineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View itemView = LayoutInflater.from(getBaseContext()).inflate(R.layout.user_layout, parent, false);
+                return new ListOnlineViewHolder(itemView);
             }
         };
-        adapter.notifyDataSetChanged();
+        adapter.startListening();
         listeOnline.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void setupSystem() {
@@ -312,6 +319,8 @@ public class ListeOnline extends AppCompatActivity implements
         if(mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
+        if(adapter != null)
+            adapter.stopListening();
         super.onStop();
     }
 
