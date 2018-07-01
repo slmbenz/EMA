@@ -1,4 +1,4 @@
-package com.example.abdessalem.realtimetrack;
+package com.example.abdessalem.realtimetrack.model;
 
 public class User {
     private String email, status;
