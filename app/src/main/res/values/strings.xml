@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">realTimeTrack</string>
     <string name="title_activity_map_tracking">Map</string>
+    <string name="join">Join</string>
+    <string name="Logout">Logout</string>
+    <string name="test_gmail_com">test@gmail.com</string>
 </resources>

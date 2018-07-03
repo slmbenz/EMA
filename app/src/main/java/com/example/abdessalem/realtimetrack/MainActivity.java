@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivityForResult(
                         AuthUI.getInstance().createSignInIntentBuilder()
-                        .build(),LOGIN_PERMISSION
+                        .setIsSmartLockEnabled(false, true).build(),LOGIN_PERMISSION
                 );
             }
 

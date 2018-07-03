@@ -74,6 +74,7 @@ public class ListeOnline extends AppCompatActivity implements
 
         //Set toolbar and Logout / Join menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        //        toolbar.setTitle("Buddy Seeker");
         toolbar.setTitle("realTime Tracker login");
         setSupportActionBar(toolbar);
 
@@ -173,13 +174,6 @@ public class ListeOnline extends AppCompatActivity implements
 
     private void updateList() {
 
-/*
-        //i make a Query here
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-*/
-
         // the options should be declared
         FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
                         .setQuery(counterRef, User.class)
@@ -259,7 +253,7 @@ public class ListeOnline extends AppCompatActivity implements
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
-
+    //join/logout option
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
