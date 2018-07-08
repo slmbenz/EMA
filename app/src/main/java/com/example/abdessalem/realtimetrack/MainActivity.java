@@ -9,14 +9,15 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Arrays;
+import com.firebase.ui.auth.AuthUI.IdpConfig;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnLogin;
     private FirebaseAuth mAuth;
-    private final static int LOGIN_PERMISSION=1000;
+    private final static int LOGIN_PERMISSION=100;
 
 
 
@@ -24,29 +25,48 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnLogin = (Button)findViewById(R.id.btnSignIn);
+        btnLogin = findViewById(R.id.btnSignIn);
         mAuth = FirebaseAuth.getInstance();
         btnLogin.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                startActivityForResult(
+/*                startActivityForResult(
                         AuthUI.getInstance().createSignInIntentBuilder()
                         .setIsSmartLockEnabled(false, true).build(),LOGIN_PERMISSION
-                );
+               );*/
+
+                startActivityForResult(
+                        AuthUI.getInstance().createSignInIntentBuilder()
+                                .setAvailableProviders(getSelectedProviders())
+                                .setIsSmartLockEnabled(false, true)
+                                .build(),
+                        LOGIN_PERMISSION);
             }
 
+
         });
+    }
+
+    public List<AuthUI.IdpConfig> getSelectedProviders() {
+        List<IdpConfig> selectedProviders = new ArrayList<>();
+
+        selectedProviders.add(new IdpConfig.EmailBuilder()
+                .setAllowNewAccounts(true)
+                .build());
+
+        return selectedProviders;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==LOGIN_PERMISSION)
         {
-            StartNewActivity(resultCode, data);
+            StartNewActivity(resultCode);
         }
     }
 
-    private void StartNewActivity(int resultCode, Intent data) {
+    private void StartNewActivity(int resultCode) {
         if(resultCode==RESULT_OK)
         {
             Intent intent=new Intent(MainActivity.this,ListeOnline.class);

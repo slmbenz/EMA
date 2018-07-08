@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".listOnline" />-->
         <activity android:name=".ListeOnline" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -40,7 +39,7 @@
 
         <activity
             android:name=".MapTracking"
-            android:label="@string/title_activity_map_tracking"></activity>
+            android:label="@string/title_activity_map_tracking" />
     </application>
 
 </manifest>

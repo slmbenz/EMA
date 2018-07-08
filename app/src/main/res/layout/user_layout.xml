@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
         <ImageView
-            android:src="@drawable/online"
+            android:src="@drawable/online_user"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
