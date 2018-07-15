@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">realTimeTrack</string>
+    <string name="app_name">Buddy Seeker</string>
     <string name="title_activity_map_tracking">Map</string>
     <string name="join">Join</string>
     <string name="Logout">Logout</string>

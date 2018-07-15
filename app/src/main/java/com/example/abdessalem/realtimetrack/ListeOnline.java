@@ -75,7 +75,7 @@ public class ListeOnline extends AppCompatActivity implements
         //Set toolbar and Logout / Join menu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         //        toolbar.setTitle("Buddy Seeker");
-        toolbar.setTitle("realTime Tracker login");
+        toolbar.setTitle("Find my Buddy login");
         setSupportActionBar(toolbar);
 
         //Firebase
